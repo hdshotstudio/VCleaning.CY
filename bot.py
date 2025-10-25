@@ -28,7 +28,7 @@ async def start_cmd(msg: Message):
     await msg.answer(text, reply_markup=main_menu(), parse_mode=ParseMode.HTML)
 
 async def run_bot():
-    token = getenv("TELEGRAM_BOT_TOKEN") or "YOUR_TELEGRAM_BOT_TOKEN"
+    bot = Bot(token=token)
     bot = Bot(token=token, parse_mode=ParseMode.HTML)
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_router(router)
