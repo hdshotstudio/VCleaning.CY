@@ -17,8 +17,7 @@ def main_menu():
         KeyboardButton(text="💬 Поддержка"),
         KeyboardButton(text="⚙️ Настройки"),
     )
-    return kb
-    
+    return kb   
 WELCOME = {
     "main": "<b>Привет, {name}!</b>",
     "desc": "Добро пожаловать в <b>A.V Cleaning</b> — здесь чистота начинается с заботы 🧼✨",
