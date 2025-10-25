@@ -4,11 +4,11 @@ from aiogram import Router, F, Bot, Dispatcher
 from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
-
+from os import getenv
 
 router = Router()
 
-# Главное меню — в стиле CinCin
+# Главное меню
 def main_menu():
     kb = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     kb.add(
@@ -21,7 +21,7 @@ def main_menu():
 
 WELCOME = {
     "main": "<b>Привет, {name}!</b>",
-    "desc": "Добро пожаловать в <b>A.V Cleaning</b> — здесь чистота начинается с заботы 🧼✨",
+    "desc": "Добро пожаловать в <b>A.V Cleaning</b> - здесь чистота начинается с заботы 🧼✨",
     "hint": "Выберите нужный раздел ниже 👇"
 }
 
@@ -32,26 +32,23 @@ async def show_loading(msg: Message):
         try:
             await msg.edit_text(step)
         except Exception:
-            # если сообщение без edit — просто отправим новое
             await msg.answer(step)
         await asyncio.sleep(0.6)
 
 @router.message(F.text.in_(["/start", "start", "начать", "Start", "Старт"]))
 async def start_cmd(msg: Message):
-    await msg.answer(
+    text = (
         f"{WELCOME['main'].format(name=msg.from_user.full_name or msg.from_user.first_name)}\n\n"
-        f"{WELCOME['desc']}\n\n"
-        f"{WELCOME['hint']}",
-        reply_markup=main_menu(),
-        parse_mode=ParseMode.HTML,
+        f"{WELCOME['desc']}\n\n{WELCOME['hint']}"
     )
+    await msg.answer(text, reply_markup=main_menu(), parse_mode=ParseMode.HTML)
 
 @router.message(F.text == "🧹 Услуги")
 async def show_services(msg: Message):
     sent = await msg.answer("🕓 Загружаю список услуг…")
     await show_loading(sent)
     await msg.answer(
-        "🧹 <b>Выберите услугу</b>\nКаждая уборка — с вниманием к деталям ✨",
+        "🧹 <b>Выберите услугу</b>\nКаждая уборка - с вниманием к деталям ✨",
         parse_mode=ParseMode.HTML
     )
 
@@ -76,7 +73,6 @@ async def settings(msg: Message):
     )
 
 async def run_bot():
-    from os import getenv
     token = getenv("TELEGRAM_BOT_TOKEN") or "YOUR_TELEGRAM_BOT_TOKEN"
     bot = Bot(token=token, parse_mode=ParseMode.HTML)
     dp = Dispatcher(storage=MemoryStorage())
