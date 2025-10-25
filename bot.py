@@ -19,8 +19,8 @@ def main_menu():
     )
     return kb
 
-WELCOME = (
-    "💫 <b>Привет, {name}!</b>
+WELCOME = {
+    "<b>Привет, {name}!</b>",
 "
     "Добро пожаловать в <b>A.V Cleaning</b> — здесь чистота начинается с заботы 🌿
 
